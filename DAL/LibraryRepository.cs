@@ -26,9 +26,9 @@ namespace LibraryWebAPI.DAL
             return _context.Books.Where(b => b.Id == id);
         }
 
-        public void AddBook(BookDAL book)
+        public void AddBook(BookDAL bookDal)
         {
-            _context.Books.Add(book);
+            _context.Books.Add(bookDal);
         }
 
         public void AddReview(ReviewDAL review)

@@ -3,6 +3,7 @@ using LibraryWebAPI.BLL;
 using LibraryWebAPI.DAL;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
 
 namespace LibraryWebAPI
 {
@@ -11,6 +12,21 @@ namespace LibraryWebAPI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddHttpLogging(logging =>
+            {
+                logging.LoggingFields = HttpLoggingFields.All;
+                logging.RequestHeaders.Add(HeaderNames.Accept);
+                logging.RequestHeaders.Add(HeaderNames.ContentType);
+                logging.RequestHeaders.Add(HeaderNames.ContentDisposition);
+                logging.RequestHeaders.Add(HeaderNames.ContentEncoding);
+                logging.RequestHeaders.Add(HeaderNames.ContentLength);
+
+                logging.MediaTypeOptions.AddText("application/json");
+                logging.RequestBodyLogLimit = 4096;
+                logging.ResponseBodyLogLimit = 4096;
+            });
+
 
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 

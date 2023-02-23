@@ -1,3 +1,8 @@
+using AutoMapper;
+using LibraryWebAPI.BLL;
+using LibraryWebAPI.DAL;
+using Microsoft.EntityFrameworkCore;
+
 namespace LibraryWebAPI
 {
     public class Program
@@ -7,15 +12,22 @@ namespace LibraryWebAPI
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+            builder.Services.AddDbContext<LibraryContext>();
+
+            builder.Services.AddTransient<LibraryRepository>();
+
+            builder.Services.AddTransient(s =>
+                new LibraryService(s.GetRequiredService<LibraryRepository>(), s.GetRequiredService<IMapper>()));
+
             builder.Services.AddControllers();
 
-            var app = builder.Build();
 
+            var app = builder.Build();
 
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 

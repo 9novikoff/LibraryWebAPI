@@ -1,4 +1,5 @@
 ﻿using LibraryWebAPI.DAL.DALModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibraryWebAPI.DAL
 {
@@ -11,42 +12,43 @@ namespace LibraryWebAPI.DAL
             _context = context;
         }
 
-        public IEnumerable<BookDAL> GetAllBooks()
+        public async Task<IEnumerable<BookDAL>> GetAllBooksAsync()
         {
-            return _context.Books.ToList();
+            return await _context.Books.ToListAsync();
         }
 
-        public IEnumerable<BookDAL> GetAllBooksByGenre(string genre)
+        public async Task<BookDAL> GetBookByIdAsync(int id)
         {
-            return _context.Books.Where(b => b.Genre == genre);
+            return await _context.Books.Where(b => b.Id == id).FirstOrDefaultAsync();
         }
 
-        public IEnumerable<BookDAL> GetBookById(int id)
+        public async Task<int> AddBookAsync(BookDAL bookDal)
         {
-            return _context.Books.Where(b => b.Id == id);
+            await _context.Books.AddAsync(bookDal);
+            return bookDal.Id;
         }
 
-        public void AddBook(BookDAL bookDal)
+        public async Task<int> AddReviewAsync(ReviewDAL review)
         {
-            _context.Books.Add(bookDal);
+            await _context.Reviews.AddAsync(review);
+            return review.Id;
         }
 
-        public void AddReview(ReviewDAL review)
+        public async Task<int> AddRatingAsync(RatingDAL rating)
         {
-            _context.Reviews.Add(review);
+            await _context.Ratings.AddAsync(rating);
+            return rating.Id;
         }
 
-        public void AddRating(RatingDAL rating)
+        public async Task<bool> TryToDeleteBookAsync(int id)
         {
-            _context.Ratings.Add(rating);
-        }
+            var book = await _context.Books.FindAsync(id);
 
-        public void DeleteBook(int id)
-        {
-            var book = _context.Books.Find(id);
+            if (book == null)
+                return false;
 
-            if(book != null)
-                _context.Books.Remove(book);
+            _context.Books.Remove(book);
+            return true;
         }
     }
 }

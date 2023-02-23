@@ -1,7 +1,12 @@
-﻿namespace LibraryWebAPI.DAL.DALModels
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace LibraryWebAPI.DAL.DALModels
 {
     public class BookDAL
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Title { get; set; }
         public string Cover { get; set; }

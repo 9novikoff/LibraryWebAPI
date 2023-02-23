@@ -42,6 +42,15 @@ namespace LibraryWebAPI
 
             var app = builder.Build();
 
+
+            app.UseExceptionHandler("/error");
+
+            app.Map("/error", ap => ap.Run(async context =>
+            {
+                await context.Response.WriteAsync("An error occurred while processing the request!");
+            }));
+
+
             app.UseHttpLogging();
 
             app.UseHttpsRedirection();

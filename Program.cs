@@ -1,6 +1,7 @@
 using AutoMapper;
 using LibraryWebAPI.BLL;
 using LibraryWebAPI.DAL;
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryWebAPI
@@ -24,6 +25,8 @@ namespace LibraryWebAPI
 
 
             var app = builder.Build();
+
+            app.UseHttpLogging();
 
             app.UseHttpsRedirection();
 

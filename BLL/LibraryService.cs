@@ -50,8 +50,8 @@ namespace LibraryWebAPI.BLL
 
         public async Task<bool> TryToDeleteAsync(int id, string? secret)
         {
-            const string configPath = "appsetings.json";
-            var key = new ConfigurationBuilder().AddJsonFile(configPath).Build().GetValue<string>("Config:Key");
+            const string configPath = "appsettings.json";
+            var key = new ConfigurationBuilder().AddJsonFile(configPath).Build().GetSection("Config")["Key"];
 
             if (key == null || !key.Equals(secret))
                 return false;

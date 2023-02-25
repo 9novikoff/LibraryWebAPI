@@ -14,7 +14,7 @@ namespace LibraryWebAPI.DAL.DALModels
         public string Author { get; set; }
         public string Genre { get; set; }
 
-        public ICollection<ReviewDAL> Reviews { get; set; }
-        public ICollection<RatingDAL> Ratings { get; set; }
+        public virtual ICollection<ReviewDAL> Reviews { get; set; }
+        public virtual ICollection<RatingDAL> Ratings { get; set; }
     }
 }

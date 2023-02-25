@@ -11,5 +11,6 @@ namespace LibraryWebAPI.DAL.DALModels
         public string Message { get; set; }
         public int BookId { get; set; }
         public string Reviewer { get; set; }
+        public BookDAL Book { get; set; }
     }
 }

@@ -23,7 +23,7 @@ namespace LibraryWebAPI.Controllers
                 null => Ok(await _service.GetAllBooksAsync()),
                 "author" => Ok(await _service.GetBooksOrderedByAuthorAsync()),
                 "title" => Ok(await _service.GetBooksOrderedByTitleAsync()),
-                _ => NotFound(),
+                _ => BadRequest(),
             };
         }
 
@@ -60,7 +60,7 @@ namespace LibraryWebAPI.Controllers
         {
             if (id == 0)
                 return NotFound();
-            return Ok(new{ Id = _service.AddReviewAsync(id, review)});
+            return Ok(new { Id = await _service.AddReviewAsync(id, review)});
         }
 
         [HttpPut("{id}/rate")]
@@ -68,7 +68,7 @@ namespace LibraryWebAPI.Controllers
         {
             if (id == 0)
                 return NotFound();
-            return Ok(new { Id = _service.AddRatingAsync(id, rating) });
+            return Ok(new { Id = await _service.AddRatingAsync(id, rating) });
         }
     }
 }

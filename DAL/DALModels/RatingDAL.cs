@@ -10,5 +10,6 @@ namespace LibraryWebAPI.DAL.DALModels
         public int Id { get; set; }
         public int BookId { get; set; }
         public decimal Score { get; set; }
+        public BookDAL Book { get; set; }
     }
 }

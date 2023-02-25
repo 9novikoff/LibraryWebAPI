@@ -14,29 +14,34 @@ namespace LibraryWebAPI.DAL
 
         public async Task<IEnumerable<BookDAL>> GetAllBooksAsync()
         {
-            return await _context.Books.ToListAsync();
+            return await _context.Books.Include(b => b.Ratings).Include(b => b.Reviews).ToListAsync();
         }
 
         public async Task<BookDAL> GetBookByIdAsync(int id)
         {
-            return await _context.Books.Where(b => b.Id == id).FirstOrDefaultAsync();
+            return await _context.Books
+                .Include(b => b.Ratings).Include(b => b.Reviews)
+                .Where(b => b.Id == id).FirstOrDefaultAsync();
         }
 
         public async Task<int> AddBookAsync(BookDAL bookDal)
         {
             await _context.Books.AddAsync(bookDal);
+            await _context.SaveChangesAsync();
             return bookDal.Id;
         }
 
         public async Task<int> AddReviewAsync(ReviewDAL review)
         {
             await _context.Reviews.AddAsync(review);
+            await _context.SaveChangesAsync();
             return review.Id;
         }
 
         public async Task<int> AddRatingAsync(RatingDAL rating)
         {
             await _context.Ratings.AddAsync(rating);
+            await _context.SaveChangesAsync();
             return rating.Id;
         }
 
@@ -48,6 +53,7 @@ namespace LibraryWebAPI.DAL
                 return false;
 
             _context.Books.Remove(book);
+            await _context.SaveChangesAsync();
             return true;
         }
     }
